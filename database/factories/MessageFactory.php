@@ -20,15 +20,15 @@ class MessageFactory extends Factory
     {
         $senderId = $this->faker->randomElement([0, 1]);
         if ($senderId === 0) {
-            $receiverId = $this->faker->randomElement(User::where('id', '!=', 1)->pluck('id'))->toArray();
+            $senderId = $this->faker->randomElement(User::where('id', '!=', 1)->pluck('id')->toArray());
             $receiverId = 1;
         } else {
-            $receiverId = $this->faker->randomElement(User::pluck('id'))->toArray();
+            $receiverId = $this->faker->randomElement(User::pluck('id')->toArray());
         }
 
         $groupId = null;
         if ($this->faker->boolean(50)) {
-            $groupId = $this->faker->randomElement(User::pluck('id')->toArray());
+            $groupId = $this->faker->randomElement(Group::pluck('id')->toArray());
             $group = Group::find($groupId);
             $senderId = $this->faker->randomElement($group->users->pluck('id')->toArray());
             $receiverId = null;
